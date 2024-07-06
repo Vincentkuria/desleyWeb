@@ -49,16 +49,19 @@
         
 
         <div class="h-4/5 overflow-scroll">
-            <div v-for="i in 1" class="w-full p-3 flex  justify-items-center shadow-lg m-2 ">
+            <div v-for="item in 10" class="w-full p-3 flex  justify-items-center shadow-lg m-2 ">
                 <ul class="flex m-auto">
                     <li class="w-48 text-center py-1 px-2 overflow-hidden text-ellipsis">Wa Kamjoro Enterprise</li>
                     <li class="w-48 text-center py-1 px-2 overflow-hidden text-ellipsis">vinvincent254@gmail.com11111111111111</li>
                     <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis text-red-600">pending</li>
                     <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">2024-03-05 21:20:24</li>
                     <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">2024-03-05 21:20:24</li>
-                    <li class="w-28 text-center py-1 px-2"><!--Icon name="mdi:dots-vertical"/-->
+                    <li class="w-28 text-center py-1 px-2">
+                        <svg @click="dialogStatus=true; dialogNo=item" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                        </svg>
                     <div class="relative w-0 h-0">
-                        <ul v-if="true" class="absolute top-0 left-0 bg-indigo-950 text-white shadow-2xl z-10 p-4">
+                        <ul v-if="dialogStatus && dialogNo==item" ref="popupItem" class="absolute top-0 left-0 bg-indigo-950 text-white shadow-2xl z-10 p-4">
                             <li class="py-2">approve</li>
                             <li class="py-2">update</li>
                             <li class="py-2">change password</li>
@@ -73,3 +76,14 @@
         
     </div>
 </template>
+
+<script setup>
+const dialogStatus=ref(false);
+const dialogNo=ref(null);
+const popupItem=ref(null);
+
+onClickOutside(popupItem, () => {
+    dialogStatus.value=false;
+})
+
+</script>
