@@ -1,15 +1,79 @@
 <template>
-    <Popup v-if="false">
-        <div v-for="x in 20">Hello kenya Hello kenya Hello kenya Hello kenya Hello kenya</div>
+    <Snackbar :open="snackbarOpen" :message="snackbarNote" :success="snackbarSuccess">
+        <div @click="snackbarOpen=false"  class="hover:cursor-pointer flex w-fit align-middle justify-center font-bold text-red-700">close</div>
+    </Snackbar>
+    <Popup v-if="spareUpdate || addSpare">
+        <div v-if="dialogError!=null" class="w-full h-7 text-white flex justify-center bg-red-600">
+            {{ dialogError }}
+        </div>
+        <div v-if="spareUpdate">
+            <form  @submit.prevent="updateSpare()" enctype="multipart/form-data">
+                <div class="py-4">
+                    <label class="block pb-2" for="n">Name</label>
+                    <input @input="dialogError=null" v-model="updateName" class="border-2 border-gray-600 rounded-md" id="n" type="text">
+                </div>
+                <div class="py-4">
+                    <label class="block pb-2" for="d">Description</label>
+                    <textarea @input="dialogError=null" v-model="updateDescription" class="border-2 border-gray-600 rounded-md" id="d" type="text"></textarea>
+                </div>
+                <div class="py-4">
+                    <label  class="block pb-2" for="p">Price</label>
+                    <input @input="dialogError=null" v-model="updatePrice"  class="border-2 border-gray-600 rounded-md" id="p" type="number">
+                </div>
+                <div class="py-4">
+                    <label  class="block pb-2" for="i">Image</label>
+                    <input @change="(f)=>{updateImg=f.target.files[0]}"  class="border-2 border-gray-600 rounded-md" id="i" type="file" accept="image/*" >
+                </div>
+                <div class="flex justify-between w-72">
+                    <button class=" bg-indigo-950 text-white py-2 px-6 rounded-full" @click="updateSpare()">Update</button>
+                    <button @click="spareUpdate=false; dialogError=null" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div v-if="addSpare">
+            <form  @submit.prevent  enctype="multipart/form-data">
+                <div class="py-4">
+                    <label class="block pb-2" for="n">Name</label>
+                    <input @input="dialogError=null" v-model="Name" class="border-2 border-gray-600 rounded-md" id="n" type="text">
+                </div>
+                <div class="py-4">
+                    <label class="block pb-2" for="d">Description</label>
+                    <textarea @input="dialogError=null" v-model="Description" class="border-2 border-gray-600 rounded-md" id="d" type="text"></textarea>
+                </div>
+                <div class="py-4">
+                    <label  class="block pb-2" for="p">Price</label>
+                    <input @input="dialogError=null" v-model="Price"  class="border-2 border-gray-600 rounded-md" id="p" type="number">
+                </div>
+                <div class="py-4">
+                    <label  class="block pb-2" for="i">Image</label>
+                    <input @change="(f)=>{Image=f.target.files[0]}" class="border-2 border-gray-600 rounded-md" id="i" type="file" accept="image/*" >
+                </div>
+                <div class="py-4">
+                    <label  class="block pb-2" for="inv">Inventory</label>
+                    <div @click="invMenuOpen ? invMenuOpen =false :invMenuOpen=true;" id="inv" class=" p-3 border-2 border-indigo-950 rounded-lg text-indigo-950">{{ invSelected? allInv[invSelectedIndex].name:'Select' }}</div>
+                    <div class="relative w-full h-0">
+                        <ul v-if="invMenuOpen" ref="invItem" class="absolute max-h-64 overflow-y-scroll top-0 left-4 bg-slate-100 text-indigo-950 shadow-2xl z-10 p-4">
+                            <li v-for="(item,index) in allInv" @click="invSelected=item.id; invSelectedIndex=index; invMenuOpen=false" class="py-2 hover:cursor-pointer" >{{ item.name }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-between w-72">
+                    <button class=" bg-indigo-950 text-white py-2 px-6 rounded-full" @click="createSpare()">Create Spare</button>
+                    <button @click="addSpare=false; dialogError=null" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
+                </div>
+            </form>
+        </div>
+        
     </Popup>
     <div class="h-screen">
         <div class="h-1/5">
-            
+
             <div class="h-1/3 w-full flex shadow-2xl">
                 <div class="w-full h-full flex pb-1 ms-7">
                     
-                    <input class="w-1/2 border-2 px-2 rounded-lg border-indigo-950" type="text" placeholder="Search" >
-                    <button class="bg-indigo-950 text-white mx-2 p-2 px-4 rounded-full">
+                    <input v-model="searchQuery" class="w-1/2 border-2 px-2 rounded-lg border-indigo-950" type="text" placeholder="Search" >
+                    <button @click="search"  class="bg-indigo-950 text-white mx-2 p-2 px-4 rounded-full">
                         
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -18,14 +82,14 @@
                     </button>
                 </div>
 
-                <button class=" text-white  bg-indigo-950 rounded-md flex text-center px-4 py-2 mb-2 mr-6">
+                <button @click="addSpare=true;" class=" text-white  bg-indigo-950 rounded-md flex text-center px-4 py-2 mb-2 mr-6">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                     Add 
                 </button>
             </div>
-            
+
             <div class="w-full bg-indigo-950 text-white h-2/3 flex  justify-items-center ">
                 <ul class="flex m-auto">
                     <li class="w-28 text-center p-2">Spare</li>
@@ -41,22 +105,27 @@
         
 
         <div class="h-4/5 overflow-scroll">
-            <div v-for="item in 10" class="w-full p-3 flex  justify-items-center shadow-lg m-2 ">
+            <div v-if="pending">
+                Loading......
+            </div>
+
+            <div v-else v-for="(item,index) in myData" class="w-full p-3 flex  justify-items-center shadow-lg m-2 ">
                 <ul class="flex m-auto">
-                    <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">Milking Machine repair</li>
-                    <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">5,678</li>
-                    <li class="w-52 h-24 text-center py-1 px-2 overflow-y-scroll">Wa njoki Enterprise Wa njoki Enterprise Wa njoki Enterprise Wa njoki Enterprise Wa njoki Enterprise Wa njoki Enterprise Wa njoki EnterpriseWa njoki Enterprise v</li>
-                    <li class="w-28 text-center py-1 px-2 overflow-hidden"><img height="6rem" class="object-contain" src="/assets/images.png"></li>
-                    <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">2024-03-05 21:20:24</li>
-                    <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">2024-03-05 21:20:24</li>
+                    <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.name }}</li>
+                    <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.price }}</li>
+                    <li class="w-52 h-24 text-center py-1 px-2 overflow-y-scroll">{{ item.item_description }}</li>
+                    <li class="w-28 text-center py-1 px-2 overflow-hidden"><img height="6rem" class="object-contain" :src="item.img_url"></li>
+                    <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.created_at }}</li>
+                    <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.updated_at }}</li>
                     <li class="w-28 text-center py-1 px-2">
                         <svg @click="dialogStatus=true; dialogNo=item" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                         </svg>
+
                     <div class="relative w-0 h-0">
                         <ul v-if="dialogStatus && dialogNo==item" ref="popupItem" class="absolute top-0 left-0 bg-indigo-950 text-white shadow-2xl z-10 p-4">
-                            <li class="py-2">update</li>
-                            <li class="py-2">delete</li>
+                            <li v-if="false" class="py-2 hover:cursor-pointer" @click="spareUpdate=true; popItemId=item.id">update</li>
+                            <li class="py-2 hover:cursor-pointer" @click="deleteSpare(item.id)">delete</li>
                         </ul>
                     </div>
                     </li>
@@ -72,9 +141,184 @@
 const dialogStatus=ref(false);
 const dialogNo=ref(null);
 const popupItem=ref(null);
+const popItemId=ref(null);
+const addSpare=ref(false);
+const dialogError=ref(null);
+
+const myData=ref(null);
+
+const spareUpdate=ref(null);
+
+const snackbarNote=ref(null);
+const snackbarOpen=ref(false);
+const snackbarSuccess=ref(true);
+
+const searchQuery=ref(null);
+const searchData=ref(null);
+
+const invItem=ref(null);
+const invMenuOpen=ref(false);
+const invSelected=ref(null);
+const invSelectedIndex=ref(null);
+
+const updateName=ref(null);
+const updateDescription=ref(null);
+const updatePrice=ref(null);
+const updateImg=ref(null);
+
+const Name=ref(null);
+const Description=ref(null);
+const Price=ref(null);
+const Image=ref(null);
+
+const allInv=ref([]);
+
+
+const { data, status,pending, error, refresh, clear } = await useFetch('http://127.0.0.1:8000/api/spares',
+    {
+        method:'GET',
+        headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
+        onResponse({response}){
+            myData.value=response._data.data;
+        }
+    }
+)
+
+onMounted(()=>{
+    refresh();
+    getInventory();
+})
+
+async function getInventory() {
+    const data = await $fetch('http://127.0.0.1:8000/api/inventories',
+    {
+        method:'GET',
+        headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
+        onResponse({response}){
+            if (response.status==200) {
+
+                response._data.data.forEach(element => {
+                    if (element.supplier!=null) {
+                        allInv.value.push(element);
+                    }
+                });
+                // myData.value=response._data.data;
+            }
+        }
+    }
+)
+}
+
+async function createSpare() {
+    dialogError.value=null;
+    if (Name.value!=null&&Description.value!=null&&Price.value!=null&&Image.value!=null) {
+        
+    } else {
+        dialogError.value='all fields are required';
+        return;
+    }
+
+    const params=new FormData();
+    params.append('name',Name.value);
+    params.append('item_description',Description.value);
+    params.append('price',Price.value);
+    params.append('img',Image.value);
+    params.append('inventory_id',invSelected.value);
+
+        
+    const data = await $fetch('http://127.0.0.1:8000/api/spares',
+        {
+            method:'POST',
+            body:params,
+            headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
+            onResponse({response}){
+                if (response.status>=201) {
+                    addSpare.value=false;
+                    refresh();
+                    snackbarNote.value='spare added successfully';
+                    snackbarSuccess.value=true;
+                    snackbarOpen.value=true
+
+                }else{
+                    console.log(response)
+                }
+            }
+
+        }
+    )
+}
+
+async function deleteSpare() {
+    if (!confirm('confirm this delete action')) {
+        return;
+    }
+    
+    const data = await useFetch('http://127.0.0.1:8000/api/spares/'+id,
+        {
+            method:'DELETE',
+            headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
+            onResponse({response}){
+                if (response.status==200) {
+                    refresh();
+                    snackbarNote.value='spare deleted successfully';
+                    snackbarSuccess.value=true;
+                    snackbarOpen.value=true;
+                }
+            }
+        }
+    )
+}
+
+async function updateSpare() {
+    dialogError.value=null;
+    console.log('hello');
+    const params=new FormData();
+    if (updateName.value!=null&&updateDescription.value!=null&&updatePrice.value!=null&&updateImg.value!=null) {
+        
+    params.append('name',updateName.value);
+    params.append('item_description',updateDescription.value);
+    params.append('price',updatePrice.value);
+    params.append('img',updateImg.value);
+    }else{
+        dialogError.value='all fields are required';
+        return;
+    }
+
+    
+
+    
+
+        
+    const data = await $fetch('http://127.0.0.1:8000/api/spares/'+popItemId.value,
+        {
+            method:'PATCH',
+            body:params,
+            headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
+            onResponse({response}){
+                if (response.status==200) {
+                    addSpare.value=false;
+                    refresh();
+                    snackbarNote.value='Spare updated successfully';
+                    snackbarSuccess.value=true;
+                    snackbarOpen.value=true
+
+                }else{
+                    console.log(response._data)
+                    console.log(params.get('name'));
+                }
+            }
+
+        }
+    )
+
+}
 
 onClickOutside(popupItem, () => {
     dialogStatus.value=false;
+})
+
+onClickOutside(invItem, () => {
+    invMenuOpen.value=false;
 })
 
 </script>

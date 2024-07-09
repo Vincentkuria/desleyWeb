@@ -273,6 +273,10 @@ onClickOutside(roleItem, () => {
     roleMenuOpen.value=false;
 })
 
+onMounted(()=>{
+refresh();
+})
+
 async function createEmployee() {
     if (Fname.value && Lname.value && Email.value && Password.value && Cpassword.value && PhoneNo.value && roleSelected.value) {
         if (Password.value!=Cpassword.value) {
