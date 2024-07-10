@@ -246,7 +246,7 @@ const roleSelected=ref(null);
 
 
 
-const {data, status,pending, error, refresh, clear } =await useFetch('http://127.0.0.1:8000/api/employees',
+const {data, status,pending, error, refresh, clear } =await useFetch('http://164.90.212.129/api/employees',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -307,7 +307,7 @@ async function createEmployee() {
     }
 
     //create customer
-    const data= await $fetch('http://127.0.0.1:8000/api/employees',
+    const data= await $fetch('http://164.90.212.129/api/employees',
     {
         method:'POST',
         params:params,
@@ -346,7 +346,7 @@ async function changePassword() {
             dialogError.value='your password is too short';
             return;
         }
-        const data = await $fetch('http://127.0.0.1:8000/api/update-emp-password',
+        const data = await $fetch('http://164.90.212.129/api/update-emp-password',
             {
                 method:'POST',
                 headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -375,7 +375,7 @@ async function changePassword() {
 
 async function search(){
 if (searchQuery.value) {
-    const data= await $fetch('http://127.0.0.1:8000/api/search-employees-name',
+    const data= await $fetch('http://164.90.212.129/api/search-employees-name',
         {
             method:'GET',
             params:{search:searchQuery.value},
@@ -393,7 +393,7 @@ async function employeeApprove(id) {
         return;
     }
 
-    const data =await $fetch('http://127.0.0.1:8000/api/approve-employees',
+    const data =await $fetch('http://164.90.212.129/api/approve-employees',
         {
             method:'POST',
             params:{id:id},
@@ -415,7 +415,7 @@ async function employeeDelete(id) {
     if (!confirm('confirm this delete action')) {
         return;
     }
-    const data= await $fetch('http://127.0.0.1:8000/api/employees/'+id,
+    const data= await $fetch('http://164.90.212.129/api/employees/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -451,7 +451,7 @@ async function updateEmployee() {
         phone_no:updatePhoneNo.value,
      }
 
-    const data= await $fetch('http://127.0.0.1:8000/api/employees/'+popItemId.value,
+    const data= await $fetch('http://164.90.212.129/api/employees/'+popItemId.value,
         {
             method:'PATCH',
             params:params,

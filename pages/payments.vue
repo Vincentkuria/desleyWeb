@@ -123,7 +123,7 @@ onMounted(()=>{
 
 })
 
-const {data, status,pending, error, refresh, clear } =await useFetch('http://127.0.0.1:8000/api/payments',
+const {data, status,pending, error, refresh, clear } =await useFetch('http://164.90.212.129/api/payments',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -149,7 +149,7 @@ async function search() {
     if (!searchQuery.value) {
         return;
     }
-    const data= await $fetch('http://127.0.0.1:8000/api/search-payment-code',
+    const data= await $fetch('http://164.90.212.129/api/search-payment-code',
         {
             method:'GET',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -171,7 +171,7 @@ async function paymentApprove(id) {
         return;
     }
 
-    const data =await $fetch('http://127.0.0.1:8000/api/approve-payment',
+    const data =await $fetch('http://164.90.212.129/api/approve-payment',
         {
             method:'POST',
             params:{id:id},
@@ -194,7 +194,7 @@ async function paymentDelete(id) {
     if (!confirm('confirm this delete action')) {
         return;
     }
-    const data= await $fetch('http://127.0.0.1:8000/api/payments/'+id,
+    const data= await $fetch('http://164.90.212.129/api/payments/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},

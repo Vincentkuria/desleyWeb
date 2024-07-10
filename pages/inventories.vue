@@ -110,7 +110,7 @@ const inputchange=()=>{
         searchData.value=null;
     }
 }
-const {data, status,pending, error, refresh, clear } =await useFetch('http://127.0.0.1:8000/api/inventories',
+const {data, status,pending, error, refresh, clear } =await useFetch('http://164.90.212.129/api/inventories',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -133,7 +133,7 @@ async function search() {
         return;
     }
 
-    const data = await $fetch('http://127.0.0.1:8000/api/inventory-search',
+    const data = await $fetch('http://164.90.212.129/api/inventory-search',
         {
             method:'GET',
             params:{search:searchQuery.value},
