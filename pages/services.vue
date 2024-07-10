@@ -49,7 +49,7 @@
                     <label  class="block pb-2" for="i">Image</label>
                     <input @change="(f)=>{Image=f.target.files[0]}" class="border-2 border-gray-600 rounded-md" id="i" type="file" accept="image/*" >
                 </div>
-                <div class="py-4">
+                <!-- <div class="py-4">
                     <label  class="block pb-2" for="inv">Inventory</label>
                     <div @click="invMenuOpen ? invMenuOpen =false :invMenuOpen=true;" id="inv" class=" p-3 border-2 border-indigo-950 rounded-lg text-indigo-950">{{ invSelected? allInv[invSelectedIndex].name:'Select' }}</div>
                     <div class="relative w-full h-0">
@@ -57,7 +57,7 @@
                             <li v-for="(item,index) in allInv" @click="invSelected=item.id; invSelectedIndex=index; invMenuOpen=false" class="py-2 hover:cursor-pointer" >{{ item.name }}</li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
                 <div class="flex justify-between w-72">
                     <button class=" bg-indigo-950 text-white py-2 px-6 rounded-full" @click="createEquipment()">Create Equipment</button>
                     <button @click="addEquipment=false; dialogError=null" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
@@ -223,7 +223,7 @@ async function createEquipment() {
     params.append('service_description',Description.value);
     params.append('price',Price.value);
     params.append('img',Image.value);
-    params.append('inventory_id',invSelected.value);
+    // params.append('inventory_id',invSelected.value);
 
         
     const data = await $fetch('http://164.90.212.129/api/services',

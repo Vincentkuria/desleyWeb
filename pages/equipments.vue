@@ -246,7 +246,7 @@ async function createEquipment() {
     )
 }
 
-async function deleteEquipment() {
+async function deleteEquipment(id) {
     if (!confirm('confirm this delete action')) {
         return;
     }
