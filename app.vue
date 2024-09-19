@@ -66,13 +66,18 @@ async function submit() {
         return 
     }
 
-    const data= await $fetch('http://164.90.212.129/api/elogin',
+    const data= await $fetch('http://127.0.0.1:8000/api/elogin',
         {
             method:'POST',
             body:{email:'admin@desley.com', password:adminPassword.value},
             onResponse({response}){
-                localStorage.setItem('token',response._data.data.token);
+                if (response.status==200) {
+                    localStorage.setItem('token',response._data.data.token);
                 token.value=localStorage.getItem('token');
+                }else{
+                    loginError.value=response._data.message
+                }
+                
             },
             onRequestError({error}){
                 loginError.value=error.message;

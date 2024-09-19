@@ -60,7 +60,7 @@
                 </div>
                 <div class="flex justify-between w-72">
                     <button class=" bg-indigo-950 text-white py-2 px-6 rounded-full" @click="createSpare()">Create Spare</button>
-                    <button @click="addSpare=false; dialogError=null" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
+                    <button @click="addSpare=false; dialogError=null; cleardata()" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
                 </div>
             </form>
         </div>
@@ -174,7 +174,7 @@ const Image=ref(null);
 const allInv=ref([]);
 
 
-const { data, status,pending, error, refresh, clear } = await useFetch('http://164.90.212.129/api/spares',
+const { data, status,pending, error, refresh, clear } = await useFetch('http://127.0.0.1:8000/api/spares',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -189,8 +189,16 @@ onMounted(()=>{
     getInventory();
 })
 
+function cleardata(){
+    Name.value=null;
+    Description.value=null;
+    Price.value=null;
+    Image.value=null;
+    invSelected.value=null;
+}
+
 async function getInventory() {
-    const data = await $fetch('http://164.90.212.129/api/inventories',
+    const data = await $fetch('http://127.0.0.1:8000/api/inventories',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -226,7 +234,7 @@ async function createSpare() {
     params.append('inventory_id',invSelected.value);
 
         
-    const data = await $fetch('http://164.90.212.129/api/spares',
+    const data = await $fetch('http://127.0.0.1:8000/api/spares',
         {
             method:'POST',
             body:params,
@@ -238,7 +246,7 @@ async function createSpare() {
                     snackbarNote.value='spare added successfully';
                     snackbarSuccess.value=true;
                     snackbarOpen.value=true
-
+                    cleardata();
                 }else{
                     console.log(response)
                 }
@@ -253,7 +261,7 @@ async function deleteSpare() {
         return;
     }
     
-    const data = await useFetch('http://164.90.212.129/api/spares/'+id,
+    const data = await useFetch('http://127.0.0.1:8000/api/spares/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -289,7 +297,7 @@ async function updateSpare() {
     
 
         
-    const data = await $fetch('http://164.90.212.129/api/spares/'+popItemId.value,
+    const data = await $fetch('http://127.0.0.1:8000/api/spares/'+popItemId.value,
         {
             method:'PATCH',
             body:params,

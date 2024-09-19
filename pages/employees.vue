@@ -26,7 +26,7 @@
                 </div>
                 <div class="flex justify-between w-72">
                     <button class=" bg-indigo-950 text-white py-2 px-6 rounded-full" @click="updateEmployee">Update</button>
-                    <button @click="employeeUpdate=false" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
+                    <button @click="employeeUpdate=false; cleardata()" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
                 </div>
             </form>
         </div>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="py-4">
                     <label  class="block pb-2" for="e">Role</label>
-                    <div @click="roleMenuOpen ? roleMenuOpen =false :roleMenuOpen=true;" class=" p-3 border-2 border-indigo-950 rounded-lg text-indigo-950">{{ roleSelected?roleSelected:'Select' }}</div>
+                    <div @click="roleMenuOpen ? roleMenuOpen =false :roleMenuOpen=true;" class=" p-3 border-2 border-indigo-950 rounded-lg text-indigo-950">{{ roleSelected!=null?roleSelected:'Select' }}</div>
                     <div class="relative w-full h-0">
                         <ul v-if="roleMenuOpen" ref="roleItem" class="absolute top-0 left-4 bg-slate-100 text-indigo-950 shadow-2xl z-10 p-4">
                             <li v-for="(item,index) in allRoles" @click="roleSelected=item; roleMenuOpen=false" class="py-2 hover:cursor-pointer" >{{ item }}</li>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="flex justify-between w-72">
                     <button class=" bg-indigo-950 text-white py-2 px-6 rounded-full" @click="createEmployee">Create Employee</button>
-                    <button @click="addEmployee=false" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
+                    <button @click="addEmployee=false; cleardata()" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
                 </div>
             </form>
         </div>
@@ -246,7 +246,7 @@ const roleSelected=ref(null);
 
 
 
-const {data, status,pending, error, refresh, clear } =await useFetch('http://164.90.212.129/api/employees',
+const {data, status,pending, error, refresh, clear } =await useFetch('http://127.0.0.1:8000/api/employees',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -276,6 +276,22 @@ onClickOutside(roleItem, () => {
 onMounted(()=>{
 refresh();
 })
+
+function cleardata(){
+    Fname.value=null;
+    Lname.value=null;
+    Email.value=null;
+    Role.value=null;
+    roleSelected.value=null;
+    Password.value=null;
+    Cpassword.value=null;
+    PhoneNo.value=null;
+    updateFname.value=null;
+    updateLname.value=null;
+    updateEmail.value=null;
+    updatePhoneNo.value=null;
+    dialogError.value=null;
+}
 
 async function createEmployee() {
     if (Fname.value && Lname.value && Email.value && Password.value && Cpassword.value && PhoneNo.value && roleSelected.value) {
@@ -307,7 +323,7 @@ async function createEmployee() {
     }
 
     //create customer
-    const data= await $fetch('http://164.90.212.129/api/employees',
+    const data= await $fetch('http://127.0.0.1:8000/api/employees',
     {
         method:'POST',
         params:params,
@@ -319,6 +335,7 @@ async function createEmployee() {
                 dialogError.value=null;
                 snackbarNote.value='customer created successfully';
                 snackbarOpen.value=true;
+                cleardata();
             }else{
                 dialogError.value=response._data.message;
             }
@@ -346,7 +363,7 @@ async function changePassword() {
             dialogError.value='your password is too short';
             return;
         }
-        const data = await $fetch('http://164.90.212.129/api/update-emp-password',
+        const data = await $fetch('http://127.0.0.1:8000/api/update-emp-password',
             {
                 method:'POST',
                 headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -375,7 +392,7 @@ async function changePassword() {
 
 async function search(){
 if (searchQuery.value) {
-    const data= await $fetch('http://164.90.212.129/api/search-employees-name',
+    const data= await $fetch('http://127.0.0.1:8000/api/search-employees-name',
         {
             method:'GET',
             params:{search:searchQuery.value},
@@ -393,7 +410,7 @@ async function employeeApprove(id) {
         return;
     }
 
-    const data =await $fetch('http://164.90.212.129/api/approve-employees',
+    const data =await $fetch('http://127.0.0.1:8000/api/approve-employees',
         {
             method:'POST',
             params:{id:id},
@@ -415,7 +432,7 @@ async function employeeDelete(id) {
     if (!confirm('confirm this delete action')) {
         return;
     }
-    const data= await $fetch('http://164.90.212.129/api/employees/'+id,
+    const data= await $fetch('http://127.0.0.1:8000/api/employees/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -451,7 +468,7 @@ async function updateEmployee() {
         phone_no:updatePhoneNo.value,
      }
 
-    const data= await $fetch('http://164.90.212.129/api/employees/'+popItemId.value,
+    const data= await $fetch('http://127.0.0.1:8000/api/employees/'+popItemId.value,
         {
             method:'PATCH',
             params:params,
@@ -464,6 +481,7 @@ async function updateEmployee() {
                     snackbarNote.value='employee update successfully';
                     snackbarSuccess.value=true;
                     snackbarOpen.value=true;
+                    cleardata();
                 }
             }
         }

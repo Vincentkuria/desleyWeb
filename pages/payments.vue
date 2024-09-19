@@ -10,7 +10,7 @@
                 <div class="w-full h-full flex pb-1 ms-7">
                     
                     <input v-model="searchQuery" class="w-1/2 border-2 px-2 rounded-lg border-indigo-950" type="text" placeholder="Search" >
-                    <button @click="search"  class="bg-indigo-950 text-white mx-2 p-2 px-4 rounded-full">
+                    <button @click="search();hello()"  class="bg-indigo-950 text-white mx-2 p-2 px-4 rounded-full">
                         
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -48,7 +48,7 @@
                 Loading......
             </div>
 
-            <div v-else-if="searchData.length!=0" v-for="(item,index) in searchData"  class="w-full p-3 flex  justify-items-center shadow-lg m-2 ">
+            <div v-else-if="searchData!=null && searchData.length!=0" v-for="(item,index) in searchData"  class="w-full p-3 flex  justify-items-center shadow-lg m-2 ">
                 <ul class="flex m-auto">
                     
                     <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis text-nowrap">{{ item.payment_code }}</li>
@@ -123,7 +123,7 @@ onMounted(()=>{
 
 })
 
-const {data, status,pending, error, refresh, clear } =await useFetch('http://164.90.212.129/api/payments',
+const {data, status,pending, error, refresh, clear } =await useFetch('http://127.0.0.1:8000/api/payments',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -145,16 +145,25 @@ const {data, status,pending, error, refresh, clear } =await useFetch('http://164
     }
 )
 
+function hello() {
+    console.log(myData.value.length);
+    console.log(pendingData.value.length);
+    console.log(searchData.value.length);
+    console.log(onlyPending.value);
+}
+
 async function search() {
-    if (!searchQuery.value) {
+    if (searchQuery.value==null) {
         return;
     }
-    const data= await $fetch('http://164.90.212.129/api/search-payment-code',
+    console.log(searchQuery.value);
+    const data= await $fetch('http://127.0.0.1:8000/api/search-payment-code',
         {
             method:'GET',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
             params:{search:searchQuery.value},
             onResponse({response}){
+                searchData.value=[];
                 response._data.data.forEach(element => {
                     if (element.customer!=null) {
                         searchData.value.push(element);
@@ -171,7 +180,7 @@ async function paymentApprove(id) {
         return;
     }
 
-    const data =await $fetch('http://164.90.212.129/api/approve-payment',
+    const data =await $fetch('http://127.0.0.1:8000/api/approve-payment',
         {
             method:'POST',
             params:{id:id},
@@ -194,7 +203,7 @@ async function paymentDelete(id) {
     if (!confirm('confirm this delete action')) {
         return;
     }
-    const data= await $fetch('http://164.90.212.129/api/payments/'+id,
+    const data= await $fetch('http://127.0.0.1:8000/api/payments/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},

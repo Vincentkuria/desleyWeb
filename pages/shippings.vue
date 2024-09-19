@@ -107,7 +107,7 @@ onMounted(()=>{
     refresh();
 })
 
-const {data, status,pending, error, refresh, clear } =await useFetch('http://164.90.212.129/api/shippings',
+const {data, status,pending, error, refresh, clear } =await useFetch('http://127.0.0.1:8000/api/shippings',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -130,7 +130,7 @@ const shipment=(item)=>{
 }
 
 async function search() {
-    const data = await $fetch('http://164.90.212.129/api/shipping-searchwithname',
+    const data = await $fetch('http://127.0.0.1:8000/api/shipping-searchwithname',
         {
             method:'GET',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},

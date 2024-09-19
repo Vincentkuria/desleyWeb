@@ -26,7 +26,7 @@
                 </div>
                 <div class="flex justify-between w-72">
                     <button class=" bg-indigo-950 text-white py-2 px-6 rounded-full" @click="updateEquipment">Update</button>
-                    <button @click="equipmentUpdate=false; dialogError=null" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
+                    <button @click="equipmentUpdate=false; dialogError=null; cleardata()" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
                 </div>
             </form>
         </div>
@@ -60,7 +60,7 @@
                 </div> -->
                 <div class="flex justify-between w-72">
                     <button class=" bg-indigo-950 text-white py-2 px-6 rounded-full" @click="createEquipment()">Create Equipment</button>
-                    <button @click="addEquipment=false; dialogError=null" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
+                    <button @click="addEquipment=false; dialogError=null; cleardata()" class="bg-indigo-950 text-white py-2 px-3 rounded-full">Cancel</button>
                 </div>
             </form>
         </div>
@@ -174,7 +174,7 @@ const Image=ref(null);
 const allInv=ref([]);
 
 
-const { data, status,pending, error, refresh, clear } = await useFetch('http://164.90.212.129/api/services',
+const { data, status,pending, error, refresh, clear } = await useFetch('http://127.0.0.1:8000/api/services',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -189,8 +189,20 @@ onMounted(()=>{
     getInventory();
 })
 
+function cleardata(){
+    Name.value=null;
+    Description.value=null;
+    Price.value=null;
+    Image.value=null;
+    updateName.value=null;
+    updateDescription.value=null;
+    updatePrice.value=null;
+    updateImg.value=null;
+    invSelected.value=null;
+}
+
 async function getInventory() {
-    const data = await $fetch('http://164.90.212.129/api/inventories',
+    const data = await $fetch('http://127.0.0.1:8000/api/inventories',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -226,7 +238,7 @@ async function createEquipment() {
     // params.append('inventory_id',invSelected.value);
 
         
-    const data = await $fetch('http://164.90.212.129/api/services',
+    const data = await $fetch('http://127.0.0.1:8000/api/services',
         {
             method:'POST',
             body:params,
@@ -237,8 +249,8 @@ async function createEquipment() {
                     refresh();
                     snackbarNote.value='equipment added successfully';
                     snackbarSuccess.value=true;
-                    snackbarOpen.value=true
-
+                    snackbarOpen.value=true;
+                    cleardata();
                 }
             }
 
@@ -251,7 +263,7 @@ async function deleteEquipment() {
         return;
     }
     
-    const data = await useFetch('http://164.90.212.129/api/services/'+id,
+    const data = await useFetch('http://127.0.0.1:8000/api/services/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -283,7 +295,7 @@ async function updateEquipment() {
     params.append('img',updateImg.value);
 
         
-    const data = await $fetch('http://164.90.212.129/api/services/'+popItemId.value,
+    const data = await $fetch('http://127.0.0.1:8000/api/services/'+popItemId.value,
         {
             method:'PATCH',
             body:params,
@@ -294,8 +306,8 @@ async function updateEquipment() {
                     refresh();
                     snackbarNote.value='service updated successfully';
                     snackbarSuccess.value=true;
-                    snackbarOpen.value=true
-
+                    snackbarOpen.value=true;
+                    cleardata();
                 }else{
                     console.log(response._data)
                 }

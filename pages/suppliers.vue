@@ -216,7 +216,7 @@ async function search() {
         return;
     }
 
-    const data= await $fetch('http://164.90.212.129/api/search-supplier',
+    const data= await $fetch('http://127.0.0.1:8000/api/search-supplier',
         {
             method:'GET',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -239,7 +239,7 @@ async function supplierApprove(id) {
         return;
     }
 
-    const data =await $fetch('http://164.90.212.129/api/approve-suppliers',
+    const data =await $fetch('http://127.0.0.1:8000/api/approve-suppliers',
         {
             method:'POST',
             params:{id:id},
@@ -276,15 +276,17 @@ async function createSupplier() {
         email:Email.value,
         password:Password.value,
     }
-    const data= await $fetch('http://164.90.212.129/api/suppliers',
+    const data= await $fetch('http://127.0.0.1:8000/api/suppliers',
         {
             method:'POST',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
             params:params,
             onResponse({response}){
-                if (response.status==200) {
+                if (response.status>=200 && response.status<300) {
                     supplierUpdate.value=false;
                     dialogError.value=null;
+                    addSupplier.value=false;
+                    refresh();
                     snackbarNote.value='password update successfully';
                     snackbarSuccess.value=true;
                     snackbarOpen.value=true;
@@ -308,7 +310,7 @@ async function changePassword() {
             dialogError.value='your password is too short';
             return;
         }
-        const data = await $fetch('http://164.90.212.129/api/update-sup-password',
+        const data = await $fetch('http://127.0.0.1:8000/api/update-sup-password',
             {
                 method:'POST',
                 headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -341,7 +343,7 @@ async function supplierDelete(id) {
         return;
     }
 
-    const data= await $fetch('http://164.90.212.129/api/suppliers/'+id,
+    const data= await $fetch('http://127.0.0.1:8000/api/suppliers/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -362,7 +364,7 @@ onClickOutside(popupItem, () => {
     dialogStatus.value=false;
 })
 
-const { data, status ,pending, error, refresh } = await useFetch('http://164.90.212.129/api/suppliers',
+const { data, status ,pending, error, refresh } = await useFetch('http://127.0.0.1:8000/api/suppliers',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
