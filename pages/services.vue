@@ -174,7 +174,7 @@ const Image=ref(null);
 const allInv=ref([]);
 
 
-const { data, status,pending, error, refresh, clear } = await useFetch('http://127.0.0.1:8000/api/services',
+const { data, status,pending, error, refresh, clear } = await useFetch('http://165.22.123.187/api/services',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -202,7 +202,7 @@ function cleardata(){
 }
 
 async function getInventory() {
-    const data = await $fetch('http://127.0.0.1:8000/api/inventories',
+    const data = await $fetch('http://165.22.123.187/api/inventories',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -238,16 +238,16 @@ async function createEquipment() {
     // params.append('inventory_id',invSelected.value);
 
         
-    const data = await $fetch('http://127.0.0.1:8000/api/services',
+    const data = await $fetch('http://165.22.123.187/api/services',
         {
             method:'POST',
             body:params,
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
             onResponse({response}){
-                if (response.status==200) {
+                if (response.status>=200 && response.status<300) {
                     addEquipment.value=false;
                     refresh();
-                    snackbarNote.value='equipment added successfully';
+                    snackbarNote.value='service added successfully';
                     snackbarSuccess.value=true;
                     snackbarOpen.value=true;
                     cleardata();
@@ -258,12 +258,12 @@ async function createEquipment() {
     )
 }
 
-async function deleteEquipment() {
+async function deleteEquipment(id) {
     if (!confirm('confirm this delete action')) {
         return;
     }
     
-    const data = await useFetch('http://127.0.0.1:8000/api/services/'+id,
+    const data = await useFetch('http://165.22.123.187/api/services/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -295,7 +295,7 @@ async function updateEquipment() {
     params.append('img',updateImg.value);
 
         
-    const data = await $fetch('http://127.0.0.1:8000/api/services/'+popItemId.value,
+    const data = await $fetch('http://165.22.123.187/api/services/'+popItemId.value,
         {
             method:'PATCH',
             body:params,
