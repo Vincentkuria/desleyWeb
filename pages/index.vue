@@ -264,7 +264,7 @@ async function createCustomer() {
     }
 
     //create customer
-    const data= await $fetch('http://165.22.123.187/api/register',
+    const data= await $fetch('http://159.65.23.208/api/register',
     {
         method:'POST',
         params:params,
@@ -291,7 +291,7 @@ async function createCustomer() {
 }
 
 
-const {data, pending, error, refresh, clear }= await useFetch('http://165.22.123.187/api/customers',
+const {data, pending, error, refresh, clear }= await useFetch('http://159.65.23.208/api/customers',
         {
             method:'GET',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -315,7 +315,7 @@ async function logMeOut() {
     if (!confirm('confirm logout action')) {
         return
     }
-    const data=await $fetch('http://165.22.123.187/api/elogout',
+    const data=await $fetch('http://159.65.23.208/api/elogout',
         {
             method:'POST',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -336,7 +336,7 @@ async function logMeOut() {
 
 async function search(){
 if (searchQuery.value) {
-    const data= await $fetch('http://165.22.123.187/api/customers-search',
+    const data= await $fetch('http://159.65.23.208/api/customers-search',
         {
             method:'GET',
             params:{search:searchQuery.value},
@@ -361,7 +361,7 @@ async function deleteCustomer(id) {
         return
     }
 
-    const data= await $fetch('http://165.22.123.187/api/customers/'+id,
+    const data= await $fetch('http://159.65.23.208/api/customers/'+id,
     {
         method:'DELETE',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -384,7 +384,7 @@ async function approveCustomer(id,index) {
         return
     }
 
-    const data= await $fetch('http://165.22.123.187/api/customers/'+id,
+    const data= await $fetch('http://159.65.23.208/api/customers/'+id,
         {
             method:'PATCH',
             params:{verified:'1'},
@@ -412,7 +412,7 @@ async function changePassword() {
             dialogError.value='your password is too short';
             return;
         }
-        const data = await $fetch('http://165.22.123.187/api/update-cus-password',
+        const data = await $fetch('http://159.65.23.208/api/update-cus-password',
             {
                 method:'POST',
                 headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -458,7 +458,7 @@ async function updateCustomer() {
         phone_no:updatePhoneNo.value,
      }
 
-    const data= await $fetch('http://165.22.123.187/api/customers/'+popItemId.value,
+    const data= await $fetch('http://159.65.23.208/api/customers/'+popItemId.value,
         {
             method:'PATCH',
             params:params,
