@@ -216,7 +216,7 @@ async function search() {
         return;
     }
 
-    const data= await $fetch('http://159.65.23.208/api/search-supplier',
+    const data= await $fetch('http://138.68.154.175/api/search-supplier',
         {
             method:'GET',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -239,7 +239,7 @@ async function supplierApprove(id) {
         return;
     }
 
-    const data =await $fetch('http://159.65.23.208/api/approve-suppliers',
+    const data =await $fetch('http://138.68.154.175/api/approve-suppliers',
         {
             method:'POST',
             params:{id:id},
@@ -276,7 +276,7 @@ async function createSupplier() {
         email:Email.value,
         password:Password.value,
     }
-    const data= await $fetch('http://159.65.23.208/api/suppliers',
+    const data= await $fetch('http://138.68.154.175/api/suppliers',
         {
             method:'POST',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -310,7 +310,7 @@ async function changePassword() {
             dialogError.value='your password is too short';
             return;
         }
-        const data = await $fetch('http://159.65.23.208/api/update-sup-password',
+        const data = await $fetch('http://138.68.154.175/api/update-sup-password',
             {
                 method:'POST',
                 headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -343,7 +343,7 @@ async function supplierDelete(id) {
         return;
     }
 
-    const data= await $fetch('http://159.65.23.208/api/suppliers/'+id,
+    const data= await $fetch('http://138.68.154.175/api/suppliers/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -364,7 +364,7 @@ onClickOutside(popupItem, () => {
     dialogStatus.value=false;
 })
 
-const { data, status ,pending, error, refresh } = await useFetch('http://159.65.23.208/api/suppliers',
+const { data, status ,pending, error, refresh } = await useFetch('http://138.68.154.175/api/suppliers',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},

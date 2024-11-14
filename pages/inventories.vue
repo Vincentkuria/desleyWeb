@@ -110,7 +110,7 @@ const inputchange=()=>{
         searchData.value=null;
     }
 }
-const {data, status,pending, error, refresh, clear } =await useFetch('http://159.65.23.208/api/inventories-approved',
+const {data, status,pending, error, refresh, clear } =await useFetch('http://138.68.154.175/api/inventories-approved',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -133,7 +133,7 @@ async function search() {
         return;
     }
 
-    const data = await $fetch('http://159.65.23.208/api/inventory-search',
+    const data = await $fetch('http://138.68.154.175/api/inventory-search',
         {
             method:'GET',
             params:{search:searchQuery.value},
