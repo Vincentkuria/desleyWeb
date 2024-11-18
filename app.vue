@@ -25,8 +25,8 @@
     </form>
 
 
-  <div v-else class="w-screen h-screen p-4 flex">
-      <div class="w-1/5 h-full shadow-2xl z-10">
+  <div v-else class="w-screen h-screen p-2 flex">
+      <div class="w-1/5 h-full shadow-2xl z-10 print:hidden">
           <div class="justify-items-center  flex w-full p-2">
               <img src="assets/images.png" class="m-auto object-contain w-20 h-20">
           </div>
@@ -41,6 +41,7 @@
                   <li :class="{'text-white':currentPage==6, 'bg-indigo-950':currentPage==6}" class="p-3 hover:cursor-pointer"><NuxtLink @click="currentPage=6" to="/spares">Spares</NuxtLink>  </li>
                   <li :class="{'text-white':currentPage==7, 'bg-indigo-950':currentPage==7}" class="p-3 hover:cursor-pointer"><NuxtLink @click="currentPage=7" to="/services">Services</NuxtLink>  </li>
                   <li :class="{'text-white':currentPage==8, 'bg-indigo-950':currentPage==8}" class="p-3 hover:cursor-pointer"><NuxtLink @click="currentPage=8" to="/suppliers">Suppliers</NuxtLink>  </li>
+                  <li :class="{'text-white':currentPage==9, 'bg-indigo-950':currentPage==9}" class="p-3 hover:cursor-pointer"><NuxtLink @click="currentPage=9" to="/reports">Reports</NuxtLink>  </li>
               </ul>
           </div>
       </div>
@@ -66,7 +67,7 @@ async function submit() {
         return 
     }
 
-    const data= await $fetch('http://138.68.154.175/api/elogin',
+    const data= await $fetch('http://127.0.0.1:8000/api/elogin',
         {
             method:'POST',
             body:{email:'admin@desley.com', password:adminPassword.value},
@@ -102,6 +103,7 @@ onMounted(()=>{
         case '/spares': currentPage.value=6; break;
         case '/services': currentPage.value=7; break;
         case '/suppliers': currentPage.value=8; break;
+        case '/reports': currentPage.value=9; break;
         default:currentPage.value=0; break;
     }
 })

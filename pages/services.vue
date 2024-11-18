@@ -174,7 +174,7 @@ const Image=ref(null);
 const allInv=ref([]);
 
 
-const { data, status,pending, error, refresh, clear } = await useFetch('http://138.68.154.175/api/services',
+const { data, status,pending, error, refresh, clear } = await useFetch('http://127.0.0.1:8000/api/services',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -202,7 +202,7 @@ function cleardata(){
 }
 
 async function getInventory() {
-    const data = await $fetch('http://138.68.154.175/api/inventories',
+    const data = await $fetch('http://127.0.0.1:8000/api/inventories',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -238,7 +238,7 @@ async function createEquipment() {
     // params.append('inventory_id',invSelected.value);
 
         
-    const data = await $fetch('http://138.68.154.175/api/services',
+    const data = await $fetch('http://127.0.0.1:8000/api/services',
         {
             method:'POST',
             body:params,
@@ -263,7 +263,7 @@ async function deleteEquipment(id) {
         return;
     }
     
-    const data = await useFetch('http://138.68.154.175/api/services/'+id,
+    const data = await useFetch('http://127.0.0.1:8000/api/services/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -295,7 +295,7 @@ async function updateEquipment() {
     params.append('img',updateImg.value);
 
         
-    const data = await $fetch('http://138.68.154.175/api/services/'+popItemId.value,
+    const data = await $fetch('http://127.0.0.1:8000/api/services/'+popItemId.value,
         {
             method:'PATCH',
             body:params,
