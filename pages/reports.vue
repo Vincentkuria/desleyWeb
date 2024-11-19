@@ -149,7 +149,7 @@ const showing=ref(null);
 
 
 async function getOrderReports() {
-    const data = await $fetch('http://127.0.0.1:8000/api/all-order-reports',
+    const data = await $fetch('http://138.68.154.175/api/all-order-reports',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -172,7 +172,7 @@ async function getOrderReports() {
 }
 
 async function getServiceReports() {
-    const data = await $fetch('http://127.0.0.1:8000/api/all-service-reports',
+    const data = await $fetch('http://138.68.154.175/api/all-service-reports',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -195,7 +195,7 @@ async function getServiceReports() {
 }
 
 async function getFinancialReports() {
-    const data = await $fetch('http://127.0.0.1:8000/api/all-finance-reports',
+    const data = await $fetch('http://138.68.154.175/api/all-finance-reports',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -218,7 +218,7 @@ async function getFinancialReports() {
 }
 
 async function getSupplierReports() {
-    const data = await $fetch('http://127.0.0.1:8000/api/all-supplier-resource',
+    const data = await $fetch('http://138.68.154.175/api/all-supplier-resource',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},

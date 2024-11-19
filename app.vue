@@ -67,7 +67,7 @@ async function submit() {
         return 
     }
 
-    const data= await $fetch('http://127.0.0.1:8000/api/elogin',
+    const data= await $fetch('http://138.68.154.175/api/elogin',
         {
             method:'POST',
             body:{email:'admin@desley.com', password:adminPassword.value},

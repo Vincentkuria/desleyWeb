@@ -174,7 +174,7 @@ const Image=ref(null);
 const allInv=ref([]);
 
 
-const { data, status,pending, error, refresh, clear } = await useFetch('http://127.0.0.1:8000/api/spares',
+const { data, status,pending, error, refresh, clear } = await useFetch('http://138.68.154.175/api/spares',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -198,7 +198,7 @@ function cleardata(){
 }
 
 async function getInventory() {
-    const data = await $fetch('http://127.0.0.1:8000/api/inventories',
+    const data = await $fetch('http://138.68.154.175/api/inventories',
     {
         method:'GET',
         headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -234,7 +234,7 @@ async function createSpare() {
     params.append('inventory_id',invSelected.value);
 
         
-    const data = await $fetch('http://127.0.0.1:8000/api/spares',
+    const data = await $fetch('http://138.68.154.175/api/spares',
         {
             method:'POST',
             body:params,
@@ -261,7 +261,7 @@ async function deleteSpare() {
         return;
     }
     
-    const data = await useFetch('http://127.0.0.1:8000/api/spares/'+id,
+    const data = await useFetch('http://138.68.154.175/api/spares/'+id,
         {
             method:'DELETE',
             headers:{Accept:'application/vnd.api+json',Authorization:'Bearer '+localStorage.getItem('token')},
@@ -297,7 +297,7 @@ async function updateSpare() {
     
 
         
-    const data = await $fetch('http://127.0.0.1:8000/api/spares/'+popItemId.value,
+    const data = await $fetch('http://138.68.154.175/api/spares/'+popItemId.value,
         {
             method:'PATCH',
             body:params,
