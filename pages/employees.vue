@@ -213,7 +213,7 @@ const searchQuery=ref(null);
 const searchData=ref(null);
 const addEmployee=ref(false);
 const popItemId=ref(null);
-const allRoles=ref(['manager','driver','supervisor','finance','inventory manager'])
+const allRoles=ref(['manager','driver','supervisor','finance','inventory manager','service manager','service'])
 
 const updateFname=ref(null);
 const updateLname=ref(null);

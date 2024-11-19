@@ -126,6 +126,7 @@
                 <li class="w-48 text-center py-1 px-2 overflow-hidden text-ellipsis">{{item.supplier.company_name}}</li>
                 <li class="w-48 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.inventory.name }}</li>
                 <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.count }}</li>
+                <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.count*item.inventory.price }}</li>
                 <li :class="{'text-red-600':item.status.manager=='pending','text-green-600':item.status.manager=='approved'}" class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.status.manager }}</li>
                 <li class="w-28 text-center py-1 px-2 overflow-hidden text-ellipsis">{{ item.created_at }}</li>
                 
